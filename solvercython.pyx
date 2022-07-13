@@ -1,17 +1,15 @@
 from copy import deepcopy
-from pprint import pprint
 from typing import Tuple
-import cProfile
-import solvercython
-
+import cython
 
 def allowed(board: list, val: int, y: int, x: int) -> bool:
     box_y = (y // 3) * 3
     box_x = (x // 3) * 3
 
+    if val in board[y]:
+        return False
     for i in range(9):
-        if (board[y][i] == val or
-            board[i][x] == val or
+        if (board[i][x] == val or
             board[box_y + i // 3][box_x + i % 3] == val
         ):
             return False
@@ -29,21 +27,20 @@ def is_solved(board: list) -> bool:
 
 def find_zero(board: list) -> Tuple[int, int]:
     for y, row in enumerate(board):
-        for x, val in enumerate(row):
-            if val == 0:
-                return (y, x)
+        if 0 in row:
+            return (y, row.index(0))
 
 
 def solve(board: list) -> list:
     final = []
 
     def inner(board):
-        y, x = solvercython.find_zero(board)
+        y, x = find_zero(board)
         if y is None:
             return board
 
         for i in range(1, 10):
-            if solvercython.allowed(board, i, y, x):
+            if allowed(board, i, y, x):
                 board[y][x] = i
                 if is_solved(board):
                     return final.append(deepcopy(board))
@@ -88,5 +85,5 @@ def main():
 
 
 if __name__ == "__main__":
-    cProfile.run('main()', sort='tottime')
+    main()
 

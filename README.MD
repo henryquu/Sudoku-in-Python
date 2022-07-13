@@ -37,3 +37,6 @@ Sudoku game
     - focus on a single digit highlights the same digit in all cells
 
 - list of avaible digits below the board
+
+?? generator with choosing difficulty
+?? faster solver
