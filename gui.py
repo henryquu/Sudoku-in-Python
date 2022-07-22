@@ -2,7 +2,7 @@ from time import gmtime, strftime
 import tkinter as tk
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo, askokcancel
-from typing import Counter, Tuple
+from typing import Counter
 from rules import CLOCK, DIFFICULTY
 import solver
 
@@ -81,7 +81,7 @@ class Cell(tk.Canvas):
         if solver.is_solved(self.master.board):
             self.master.master.finished()
 
-    def multiple(self, *digits: Tuple[str]) -> None:
+    def multiple(self, *digits: tuple[str]) -> None:
         for digit in set(digits):
             nr = int(digit) - 1
             y = 10 + 15 * (nr // 3)

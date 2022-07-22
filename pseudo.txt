@@ -1,0 +1,2 @@
+sprawdzic jakie cyfry mozna wpisac w cell
+trzeba sprawdzic ktorych cyfr nie ma w kolumnie, rzedzie i boxie

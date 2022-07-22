@@ -1,2 +1,3 @@
-if (x:= 5):
-    print(x)
+x = [1, 5, 4]
+if x[3] is None:
+    print(11)

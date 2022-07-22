@@ -1,89 +1,72 @@
 from copy import deepcopy
 from pprint import pprint
-import solver
-from random import choice
+from random import sample, choice
 from rules import DIFFICULTY
-import solvercython
+from solver import is_solved, allowed
+import cProfile
 
 def validate(board: list) -> list:
     solutions = 0
+    empty = tuple((y, x) for y in range(9) for x in range(9) if board[y][x] == 0)
 
-    def inner(board):
+    def inner(board, empty):
         nonlocal solutions
         if solutions > 1:
             return
 
-        cords = solver.find_zero(board)
+        cords = empty[0]
         if cords is None:
             return
         y, x = cords
 
-        for i in range(1, 10):
-            if solvercython.allowed(board, i, y, x):
-                board[y][x] = i
-                if solver.is_solved(board):
-                    solutions += 1
-                    if solutions > 1:
-                        return
+        for i in allowed(board, y, x):
+            board[y][x] = i
+            if is_solved(board):
+                solutions += 1
+                if solutions > 1:
+                    return
 
-                inner(board)
-                board[y][x] = 0
+            inner(board, empty[1:])
+            board[y][x] = 0
     
-    inner(board)
+    inner(board, empty)
     if solutions == 1:
-        return 1
-    elif solutions > 1:
-        return 0
-    return -1
-
-def generate_dfs(difficulty):
-    diff = DIFFICULTY[difficulty]
-
-def fill_board():
-    def recursive(board, not_filled):
-        n = len(not_filled)
-        if n > 64:
-            y, x = choice(not_filled)
-        else:
-            y, x = not_filled[0]
-
-        not_filled.remove((y, x))
-        for val in range(1, 10):
-            if solvercython.allowed(board, val, y, x):
-                board[y][x] = val
-                if n < 64 and solvercython.is_solved(board):
-                    return deepcopy(board)
-                if rec := recursive(board, not_filled):
-                    return deepcopy(rec)
-
-        board[y][x] = 0
-        not_filled.append((y, x))
-
-    board = [[0 for _ in range(9)] for _ in range(9)]
-    cords = [(y, x) for x in range(9) for y in range(9)]
-
-    return recursive(board, cords)
-        
+        return True
+    return False
 
 
+def fill_board() -> list[list[int]]:
+    def index(row, column): 
+        return (3 * (row % 3) + column) % 9
 
-def generate():
-    pass
+    shuffled_digits = sample(range(1, 10), 9)
+
+    board = tuple([shuffled_digits[index(r, c)] for c in range(9)] for r in range(9))
+
+    if is_solved(board):
+        return board
+    return fill_board()
+
+
+def make_puzzle(clues: tuple[int]):
+    digits = range(9)
+    board_base = fill_board()
+    filled_saved = set((y, x) for x in digits for y in digits)
+
+    while True:
+        board = deepcopy(board_base)
+        filled = deepcopy(filled_saved)
+        while len(filled) >= clues[0]:
+            y, x = choice(digits), choice(digits)
+            board[y][x] = 0
+            filled.discard((y, x))
+            
+            if len(filled) <= clues[1] and validate(board):
+                return board
 
 def main():
-    # board = [
-    #     [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    #     [4, 5, 6, 7, 8, 9, 1, 2, 3],
-    #     [7, 8, 9, 1, 2, 3, 4, 5, 6],
-    #     [2, 3, 1, 5, 6, 4, 8, 9, 7],
-    #     [5, 6, 4, 8, 9, 7, 2, 3, 1],
-    #     [8, 9, 7, 2, 3, 1, 5, 6, 4],
-    #     [3, 1, 2, 6, 4, 5, 9, 7, 8],
-    #     [6, 4, 5, 9, 7, 8, 3, 1, 2],
-    #     [9, 7, 8, 3, 1, 2, 6, 4, 5]
-    # ]
-    # print(solver.is_solved(board))
-    pprint(fill_board())
+    print(make_puzzle(DIFFICULTY['Easy']))
+
 
 if __name__ == '__main__':
-    main()
+    cProfile.run('main()', sort='tottime')
