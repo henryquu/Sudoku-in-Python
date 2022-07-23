@@ -1,5 +1,4 @@
 from copy import deepcopy
-from pprint import pprint
 import cProfile
 
 
@@ -19,19 +18,16 @@ def is_allowed(board: list, val: int, y: int, x: int) -> bool:
 
 
 def allowed(board: list, y: int, x: int) -> set:
-    digits = (0, 1, 2, 3, 4, 5, 6, 7, 8)
     box_y = (y // 3) * 3
     box_x = (x // 3) * 3
 
-    allowed_digits = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-    box = set(
-        board[box_y + 0][box_x:box_x + 3] + board[box_y + 1][box_x:box_x + 3] + 
-        board[box_y + 2][box_x:box_x + 3] + [board[i][x] for i in digits] + 
-        board[y]
-    )
+    column = [board[0][x], board[1][x], board[2][x], 
+              board[3][x], board[4][x], board[5][x], 
+              board[6][x], board[7][x], board[8][x]]
+    row = board[y]
+    box = board[box_y + 0][box_x:box_x + 3] + board[box_y + 1][box_x:box_x + 3] + board[box_y + 2][box_x:box_x + 3]
 
-    
-    allowed_digits -= box
+    allowed_digits = {1, 2, 3, 4, 5, 6, 7, 8, 9} - set(box + column + row)
 
     return allowed_digits
 
