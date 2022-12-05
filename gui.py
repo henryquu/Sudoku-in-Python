@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo, askokcancel
 from typing import Counter
-from rules import CLOCK, DIFFICULTY
+from constants import CLOCK, DIFFICULTY
 import solver
 
 
@@ -178,7 +178,7 @@ class Window(tk.Tk):
         self.timer.grid(row=0, column=3, pady=5)
 
         self.timer_button = tk.Button(
-            self.frame, text='Start timer', command=self.update_time)
+            self.frame, text='Start timer', command=self.reset_timer)
         self.timer_button.grid(row=1, column=3, sticky='s')
 
         self.frame.columnconfigure(3, weight=5)

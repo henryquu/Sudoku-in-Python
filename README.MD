@@ -1,16 +1,16 @@
 # Sudoku
 
-## Solver:
- - used depth first algorithm
- - solutions counter
- - solutions shower
 
+## Solver:
+- can use sudoku algorithms to solve part of the problem, only on class usage
+- dfs algorithm
+- solutions shower
 
 ## Options:
-    - play random puzzle?
-    - insert your own puzzle as string or manually into cells
-    - show solved puzzle
-
+- play random puzzle?
+- insert your own puzzle as string or manually into cells
+- get puzzle as a string 
+- show solved puzzle
 
 ## Gameplay:
 - insert board manually / as string / load random board
@@ -23,11 +23,10 @@
 
 ## GUI:
 - Upper frame:
-    - difficulty?
+    - difficulty
     - timer
     - solver
-    - insert board
-    - copy board
+    - buttons for inserting and copying puzzle as a string
 
 - Board:
     - 9x9 Cells divided into boxes graphically
@@ -38,7 +37,6 @@
 
 - list of avaible digits below the board
 
-## TO-DO
-- generator with choosing difficulty
-- faster solver
-- update time on button click doesn't reset timer
+## TO-DO:
+- faster solver ?
+- could implement hidden pairs algorithm ?

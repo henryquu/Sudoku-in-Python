@@ -1,72 +1,52 @@
-from copy import deepcopy
 from pprint import pprint
 from random import sample, choice
-from rules import DIFFICULTY
-from solver import is_solved, allowed
-import cProfile
+from constants import DIFFICULTY, RANGE, DIGITS
+from solverc import Solver, clues_checker
 
-def validate(board: list) -> list:
-    solutions = 0
-    empty = tuple((y, x) for y in range(9) for x in range(9) if board[y][x] == 0)
-
-    def inner(board, empty):
-        nonlocal solutions
-        if solutions > 1:
-            return
-
-        cords = empty[0]
-        if cords is None:
-            return
-        y, x = cords
-
-        for i in allowed(board, y, x):
-            board[y][x] = i
-            if is_solved(board):
-                solutions += 1
-                if solutions > 1:
-                    return
-
-            inner(board, empty[1:])
-            board[y][x] = 0
-    
-    inner(board, empty)
-    if solutions == 1:
-        return True
-    return False
-
-
+# makes a random full board that fulfills sudoku rules
 def fill_board() -> list[list[int]]:
-    def index(row, column): 
-        return (3 * (row % 3) + column) % 9
+    def pattern(row, column): 
+        return (3 * (row % 3) + row // 3 + column) % 9
 
-    shuffled_digits = sample(range(1, 10), 9)
+    def shuffle(s):
+        return sample(s,len(s))
 
-    board = tuple([shuffled_digits[index(r, c)] for c in range(9)] for r in range(9))
+    rBase = range(3)
+    rows  = [g*3 + r for g in shuffle(rBase) for r in shuffle(rBase)] 
+    cols  = [g*3 + c for g in shuffle(rBase) for c in shuffle(rBase)]
 
-    if is_solved(board):
+    nums  = shuffle(DIGITS)
+    board = [[nums[pattern(r, c)] for c in cols] for r in rows]
+
+    if Solver.is_solved(board):
         return board
     return fill_board()
 
-
+#takes full board, starts removing random digits and checking if has unique solution
 def make_puzzle(clues: tuple[int]):
-    digits = range(9)
-    board_base = fill_board()
-    filled_saved = set((y, x) for x in digits for y in digits)
-
     while True:
-        board = deepcopy(board_base)
-        filled = deepcopy(filled_saved)
+        board = fill_board()
+        filled = set((y, x) for x in RANGE for y in RANGE)
         while len(filled) >= clues[0]:
-            y, x = choice(digits), choice(digits)
+            y, x = choice(tuple(filled))
             board[y][x] = 0
-            filled.discard((y, x))
-            
-            if len(filled) <= clues[1] and validate(board):
-                return board
+            filled -= {(y, x)}
+    
+            copy = [row.copy() for row in board]
+            if len(filled) <= clues[1] and clues_checker(board):
+                check = Solver(copy).solve(wanted=2)
+                if check and len(check) == 1:
+                    return board
 
 def main():
-    print(make_puzzle(DIFFICULTY['Easy']))
+    import cProfile
+    import pstats
 
+    with cProfile.Profile() as pr:
+        x = make_puzzle(DIFFICULTY['Normal'])
+        pprint(x)
+    p = pstats.Stats(pr)
+    p.sort_stats('tottime').print_stats(5)
 
 if __name__ == '__main__':
-    cProfile.run('main()', sort='tottime')
+    main()
