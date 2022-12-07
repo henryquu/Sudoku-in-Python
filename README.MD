@@ -1,42 +1,52 @@
-# Sudoku
+# Sudoku-in-Python
+#### Implemented in Python with 1 file compiled to Cython for some speed ups<br/><br/>
 
+<p align="center">
+  <img src="images/GUI.png" />
+</p>
 
-## Solver:
-- can use sudoku algorithms to solve part of the problem, only on class usage
-- dfs algorithm
-- solutions shower
+<br/><br/>
 
-## Options:
-- play random puzzle?
-- insert your own puzzle as string or manually into cells
-- get puzzle as a string 
-- show solved puzzle
+## GUI
+### - Top frame
+- button for generating a random puzzle - long time for higher difficulties
+- list of difficulties to choose
+- buttons for copying and inserting puzzle to/from a string
+- button for solving the puzzle
+- timer
+- button for restarting the timer (for inserting digits 1 by 1)
+### Board
+- 9x9 board with small and large digits to use
+### Bottom frame
+- list of still avaible digits
+<br/><br/>
 
-## Gameplay:
-- insert board manually / as string / load random board
-- click on chosen cell to make it look for digit insertions
-- keys 'F1' - 'F9' insert digits as small, key '1' - '9' as big
-- if big digit inserted -> insert it into the board, check if solved
-- delete last inserted digit with 'BackSpace' button
-- can use 'Enter' / 'Return' key on cell with 1 small digit to transform it into big one
+## Gameplay
+- clicking on a digit highlights the same digit everywhere
+- use buttons 'F1'-'F9' to insert a small digit 
+- use buttons '1'-'9' to insert a big digit
+- 'BackSpace' removes last digit in cell
+- can use 'Return' / 'Enter' to change small digit into big if only 1 is present
+<br/><br/>
 
+## Solver
+- can use sudoku algorithm to solve some of the puzzle - uses
+- finally uses dfs brute force algorithm
+- compiled to Cython to speed it up 
+<br/><br/>
 
-## GUI:
-- Upper frame:
-    - difficulty
-    - timer
-    - solver
-    - buttons for inserting and copying puzzle as a string
+## Generator 
+- generates a random board that fulfills the sudoku rules
+- does random row / column switching
+- starts removing random digits and after the set number of clues is met, checks if the board has 1 solution
 
-- Board:
-    - 9x9 Cells divided into boxes graphically
+### Files:
+- constants.py - preinitialization of lists, e.g. all cords and digits to speed up some functions
+- generator.py - generating a random puzzle
+- gui.py - GUI
+- solver.py - solving a puzzle
+- setup.py - compiling a Cython module of solver.py
 
-- Cells:
-    - 1 big digit or grid of small ones depending on input
-    - focus on a single digit highlights the same digit in all cells
-
-- list of avaible digits below the board
-
-## TO-DO:
-- faster solver ?
-- could implement hidden pairs algorithm ?
+## TO-DO maybe:
+- generation / solving speed improvements - better algorithms, deeper cython? 
+- better gui
