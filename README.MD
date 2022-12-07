@@ -1,5 +1,5 @@
 # Sudoku-in-Python
-#### Implemented in Python with 1 file compiled to Cython for some speed ups<br/><br/>
+#### Implemented in Python with solver compiled to Cython for some speed ups. GUI was made in tkinter<br/><br/>
 
 <p align="center">
   <img src="images/GUI.png" />
@@ -15,9 +15,9 @@
 - button for solving the puzzle
 - timer
 - button for restarting the timer (for inserting digits 1 by 1)
-### Board
+### - Board
 - 9x9 board with small and large digits to use
-### Bottom frame
+### - Bottom frame
 - list of still avaible digits
 <br/><br/>
 
