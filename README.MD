@@ -7,6 +7,10 @@
 
 <br/><br/>
 
+# Requirements
+- tkinter
+- Cython and setuptools if you want to modify and use the cython solver <br></br>
+
 ## GUI
 ### - Top frame
 - button for generating a random puzzle - long time for higher difficulties
@@ -40,7 +44,7 @@
 - does random row / column switching
 - starts removing random digits and after the set number of clues is met, checks if the board has 1 solution
 
-### Files:
+## Files:
 - constants.py - preinitialization of lists, e.g. all cords and digits to speed up some functions
 - generator.py - generating a random puzzle
 - gui.py - GUI
