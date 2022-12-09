@@ -1,15 +1,16 @@
-# Sudoku-in-Python
-#### Implemented in Python with solver compiled to Cython for some speed ups. GUI was made in tkinter<br/><br/>
+# Sudoku in Python
+Implemented in Python with solver compiled to Cython for some speed ups. 
+
+GUI was made in tkinter
 
 <p align="center">
   <img src="images/GUI.png" />
 </p>
 
-<br/><br/>
 
 # Requirements
 - tkinter
-- Cython and setuptools if you want to modify and use the cython solver <br></br>
+- Cython and setuptools if you want to modify and use the cython solver
 
 ## GUI
 ### - Top frame
@@ -23,7 +24,7 @@
 - 9x9 board with small and large digits to use
 ### - Bottom frame
 - list of still avaible digits
-<br/><br/>
+
 
 ## Gameplay
 - clicking on a digit highlights the same digit everywhere
@@ -31,13 +32,13 @@
 - use buttons '1'-'9' to insert a big digit
 - 'BackSpace' removes last digit in cell
 - can use 'Return' / 'Enter' to change small digit into big if only 1 is present
-<br/><br/>
+
 
 ## Solver
 - can use sudoku algorithm to solve some of the puzzle - uses
 - finally uses dfs brute force algorithm
 - compiled to Cython to speed it up 
-<br/><br/>
+
 
 ## Generator 
 - generates a random board that fulfills the sudoku rules
@@ -54,3 +55,12 @@
 ## TO-DO maybe:
 - generation / solving speed improvements - better algorithms, deeper cython? 
 - better gui
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+
+
+## License
+License in file LICENSE.txt
